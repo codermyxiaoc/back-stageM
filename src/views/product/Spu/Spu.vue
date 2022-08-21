@@ -12,12 +12,14 @@
           <el-table-column align="center" prop="description" label="spu描述"></el-table-column>
           <el-table-column align="center" prop="prop" label="操作">
             <template slot-scope="{row}">
-              <hint-button type="success" icon="el-icon-plus" size="mini" title="添加sku"></hint-button>
+              <hint-button type="success" icon="el-icon-plus" size="mini" @click="addsku(row)" title="添加sku">
+              </hint-button>
               <hint-button type="warning" icon="el-icon-edit" size="mini" title="修改spu" @click="updataspu(row)">
               </hint-button>
               <hint-button type="info" icon="el-icon-info" size="mini" title="查看当前spu的所有sku"></hint-button>
               <el-popconfirm :title="`你确定要删除${row.spuName}`" @onConfirm="deletespu(row)">
-                <hint-button type="danger" slot="reference" icon="el-icon-delete" size="mini" title="删除spu"></hint-button>
+                <hint-button type="danger" slot="reference" icon="el-icon-delete" size="mini" title="删除spu">
+                </hint-button>
               </el-popconfirm>
 
             </template>
@@ -30,7 +32,7 @@
         </el-pagination>
       </div>
       <spu-from v-show="scene === 1" @goScene="goScene" ref="spu"></spu-from>
-      <sku-from v-show="scene === 2"></sku-from>
+      <sku-from v-show="scene === 2" @goScene="goScene" ref="sku"></sku-from>
     </el-card>
   </div>
 </template>
@@ -103,8 +105,16 @@ export default {
         })
       }
       this.getdata()
+    },
+    addsku(row) {
+      this.scene = 2
+      const idlist = {
+        category1Id: this.category1Id, 
+        category2Id: this.category2Id, 
+        category3Id: this.category3Id
+      } 
+      this.$refs.sku.getdata(row,idlist)
     }
-  
   }
 }
 </script>
