@@ -25,3 +25,39 @@ export function reqAddSkuInfo(data) {
     data
   })
 }
+export function reqfindBySpuId(spuId) {
+  return request({
+    url: `/admin/product/findBySpuId/${spuId}`,
+    method: 'get'
+  })
+}
+export function reqproductlist(page,limit) {
+  return request({
+    url: `/admin/product/list/${page}/${limit}`,
+    method: 'get'
+  })
+}
+export function reqonSale(skuId) {
+  return request({
+    url: `/admin/product/onSale/${skuId}`,
+    method: 'get'
+  })
+}
+export function reqcancelSale(skuId) {
+  return request({
+    url: `/admin/product/cancelSale/${skuId}`,
+    mehod: 'gte'
+  })
+}
+export function reqSkuById(skuId) {
+  return request({
+    url: `/admin/product/getSkuById/${skuId}`,
+    method: 'get'
+  })
+}
+export function reqdeleteSku(skuId) {
+  return request({
+    url: `/admin/product/deleteSku/${skuId}`,
+    method: 'delete'
+  })
+}

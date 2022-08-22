@@ -16,7 +16,8 @@
               </hint-button>
               <hint-button type="warning" icon="el-icon-edit" size="mini" title="修改spu" @click="updataspu(row)">
               </hint-button>
-              <hint-button type="info" icon="el-icon-info" size="mini" title="查看当前spu的所有sku"></hint-button>
+              <hint-button type="info" icon="el-icon-info" size="mini" @click="looksku(row)" title="查看当前spu的所有sku">
+              </hint-button>
               <el-popconfirm :title="`你确定要删除${row.spuName}`" @onConfirm="deletespu(row)">
                 <hint-button type="danger" slot="reference" icon="el-icon-delete" size="mini" title="删除spu">
                 </hint-button>
@@ -34,6 +35,18 @@
       <spu-from v-show="scene === 1" @goScene="goScene" ref="spu"></spu-from>
       <sku-from v-show="scene === 2" @goScene="goScene" ref="sku"></sku-from>
     </el-card>
+    <el-dialog :title="`${currentrow.spuName}的sku列表`" :visible.sync="dialogTableVisible" width="70%" @close="close">
+      <el-table :data="skuList" v-loading="loading">
+        <el-table-column property="skuName" label="名称"></el-table-column>
+        <el-table-column property="price" label="价格"></el-table-column>
+        <el-table-column property="weight" label="重量"></el-table-column>
+        <el-table-column property="address" label="默认图片">
+          <template slot-scope="{row}">
+            <img :src="row.skuDefaultImg" alt="" style="height: 100px;width: 100px">
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -51,6 +64,10 @@ export default {
       productList: [],
       total: 0,
       scene: 0,
+      dialogTableVisible: false,
+      currentrow: {},
+      skuList: [],
+      loading: true
     }
   },
   mixins: [CategorySelectmixin],
@@ -114,6 +131,18 @@ export default {
         category3Id: this.category3Id
       } 
       this.$refs.sku.getdata(row,idlist)
+    },
+    async looksku(row) {
+      this.dialogTableVisible = true
+      this.currentrow = row
+      const result = await this.$API.sku.reqfindBySpuId(row.id)
+      if(result.code === 200) {
+        this.skuList = result.data
+        this.loading = false
+      }
+    },
+    close() {
+      this.loading = true
     }
   }
 }

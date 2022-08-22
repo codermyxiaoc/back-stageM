@@ -1,30 +1,34 @@
 <template>
-  <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+  <div>
+    <card></card>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
+import Card from './childercomps/Card/Card.vue';
 export default {
-  name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
-  }
-}
+  name: 'BackStageMIndex',
+
+  data() {
+    return {
+      
+    };
+  },
+
+  components: {
+    Card
+  },
+
+  mounted() {
+    
+  },
+
+  methods: {
+    
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
-  }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
-}
+
 </style>
